@@ -1,0 +1,36 @@
+version: "3.8"
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - '3000:3000'
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+    environment:
+      DB_HOST: db
+      DB_USER: w3_user
+      DB_PASSWORD: W4LWVHCqG8r6f4mm
+      DB_NAME: w3_db
+    stdin_open: true
+    tty: true
+    depends_on:
+      - db
+  db:
+    image: mysql:8.0
+    restart: always
+    ports:
+      - "33060:3306" 
+    environment:
+      MYSQL_DATABASE: w3_db
+      MYSQL_USER: w3_user
+      MYSQL_PASSWORD: W4LWVHCqG8r6f4mm
+      MYSQL_RANDOM_ROOT_PASSWORD: "yes"
+    volumes:
+      - w3_db:/var/lib/mysql
+      - ./initdb:/docker-entrypoint-initdb.d
+volumes:
+  w3_db:           
+      
