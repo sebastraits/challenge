@@ -16,7 +16,6 @@ const requests = {
         return response;
       })
       .catch((error) => {
-        console.log(error);
         return error;
       });
   },
@@ -30,9 +29,7 @@ export const getCountries = async (searchTerm) => {
     return { error: "Search term must be at least 3 characters" };
   }
   try {
-    console.log(`${BACKEND_URL}:${BACKEND_PORT}/countries?name=${searchTerm}`);
     const response = await requests.get(`/countries?name=${searchTerm}`);
-    console.log("response:", response);
     return response;
   } catch (error) {
     console.log("error:", error);

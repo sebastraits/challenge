@@ -33,6 +33,11 @@
   margin-block-start: 0px;
   margin-block-end: 0px;
 }
+@media (max-width: 600px) {
+  .inputLabel {
+    font-size: 0.9rem;
+  }
+}
 .inputError {
   font-size: 0.8rem;
   color: red;
@@ -40,10 +45,15 @@
   margin-block-end: 0px;
 }
 .input {
-  width: 30vh;
+  width: 50%;
   padding: 12px 20px;
   margin: 8px 0;
   box-sizing: border-box;
+}
+@media (max-width: 600px) {
+  .input {
+    width: 100%;
+  }
 }
 .button {
   background-color: #4CAF50;
@@ -56,19 +66,27 @@
 .grid {
   font-size: 1.2rem;
   display: grid;
-  grid-template-columns: 12rem 18rem 8rem;
+  grid-template-columns: 10rem 10rem 10rem;
+}
+@media (max-width: 600px) {
+  .grid {
+    font-size: 0.8rem;
+    grid-template-columns: 5rem 5rem 5rem;
+  }
 }
 .gridItem {
   margin-block-start: 0px;
   margin-block-end: 0px;
 }
-.gridItemName {
+.gridHeader {
   font-weight: bold;
-  margin-block-start: 0px;
-  margin-block-end: 0px;
+  font-size: 1.5rem;
 }
-.gridPorcentaje {
-  justify-self: flex-end;
-  margin-block-start: 0px;
-  margin-block-end: 0px;
+@media (max-width: 600px) {
+  .gridHeader {
+    font-size: 0.8rem;
+  }
+}
+.gridItemRight {
+  text-align: right;
 }

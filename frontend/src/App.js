@@ -1,6 +1,6 @@
 import { useRef, useState } from "react";
 import logo from "./logo.svg";
-import classes from "./App.module.css";
+import styles from "./App.module.css";
 import { getCountries } from "./Api/api";
 
 function App() {
@@ -15,6 +15,12 @@ function App() {
     inputRef.current.select();
   };
 
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      handleSearch();
+    }
+  };
+
   const handleSearch = async () => {
     setError(undefined);
     const response = await getCountries(searchTerm);
@@ -27,43 +33,74 @@ function App() {
     }
   };
 
+  const GridHeader = () => {
+    return (
+      <div className={styles.grid}>
+        <p className={`${styles.gridItem} ${styles.gridHeader}`}>Country</p>
+        <p
+          className={`${styles.gridItem} ${styles.gridHeader} ${styles.gridItemRight}`}
+        >
+          Population
+        </p>
+        <p
+          className={`${styles.gridItem} ${styles.gridHeader} ${styles.gridItemRight}`}
+        >
+          Percentage
+        </p>
+      </div>
+    );
+  };
+
+  const GridElement = ({ name, population_size, percentage_of_total }) => {
+    return (
+      <div className={styles.grid}>
+        <p className={styles.gridItem}>{name}</p>
+        <p className={`${styles.gridItem} ${styles.gridItemRight}`}>
+          {population_size.toLocaleString("es-AR")}
+        </p>
+        <p className={`${styles.gridItem} ${styles.gridItemRight}`}>
+          {percentage_of_total}
+        </p>
+      </div>
+    );
+  };
+
   return (
     <div className="App">
       <header></header>
-      <div className={classes.body}>
-        <img src={logo} className={classes.logo} alt="logo" />
+      <div className={styles.body}>
+        <img src={logo} className={styles.logo} alt="logo" />
         <p>Countries app challenge.</p>
-        <div className={classes.form}>
-          <p className={classes.inputLabel}>Search countries by name:</p>
+        <div className={styles.form}>
+          <p className={styles.inputLabel}>Search countries by name:</p>
           <input
             ref={inputRef}
-            className={classes.input}
+            className={styles.input}
             type="text"
             value={searchTerm}
+            onKeyDown={handleKeyDown}
             onChange={(e) => setSearchTerm(e.target.value)}
             placeholder="Search..."
           />
-          {error && <p className={classes.inputError}>{error}</p>}
-          <button className={classes.button} onClick={handleSearch}>
+          {error && <p className={styles.inputError}>{error}</p>}
+          <button className={styles.button} onClick={handleSearch}>
             Search
           </button>
         </div>
         <div>
-          {results && results.map((result, index) => (
-            <div className={classes.grid} key={result.name}>
-              <p className={classes.gridItemName}>{result.name}</p>
-              <p className={classes.gridItem}>
-                Population: {result.population_size.toLocaleString("es-AR")}
-              </p>
-              <p className={classes.gridPorcentaje}>
-                {result.percentage_of_total}%
-              </p>
-            </div>
-          ))}
+          {results && results.length > 0 && <GridHeader />}
+          {results &&
+            results.map((country, index) => (
+              <GridElement
+                key={index}
+                name={country.name}
+                population_size={country.population_size}
+                percentage_of_total={country.percentage_of_total}
+              />
+            ))}
           {results && results.length === 0 && (
-             <p className={classes.noResults}>No results found.</p>
-            )  
-          }
+            <p className={styles.noResults}>No results found.</p>
+          )}
         </div>
       </div>
     </div>

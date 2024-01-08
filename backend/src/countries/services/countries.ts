@@ -1,14 +1,7 @@
-import mysql, { RowDataPacket } from "mysql2";
-import { env } from "process";
+import { connection } from "../../helpers/db";
+import { RowDataPacket } from "mysql2";
 
-const connection = mysql.createConnection({
-  host: env.DB_HOST,
-  user: env.DB_USER,
-  password: env.DB_PASSWORD,
-  database: env.DB_NAME,
-});
-
-interface ICountry extends RowDataPacket {
+export interface ICountry extends RowDataPacket {
   name: string;
   population_size: number;
   Percentage_of_total: number;
