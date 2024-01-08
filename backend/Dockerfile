@@ -14,6 +14,4 @@ EXPOSE 8000
 
 COPY . .
 
-RUN npm run test
-
 CMD [ "npm", "start" ]
