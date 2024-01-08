@@ -1,10 +1,23 @@
-import countriesRouter from './countries/routes';
-import express, { Application } from "express";
+import { env } from "process";
+import countriesRouter from "./countries/routes";
+import express, { Application, NextFunction, Request, Response } from "express";
+import cors from "cors";
 
 const app: Application = express();
-const port: Number = 3000;
+const port: string = env.PORT || '8000';
 
-app.use('/countries', countriesRouter);
+// Fallback Middleware function for returning 404 error for undefined paths
+const invalidPathHandler = (req: Request, res: Response, next: NextFunction) => {
+  res.status(404)
+  res.send('invalid path')
+}
+
+app.use(cors())
+
+app.use("/countries", countriesRouter);
+
+// Attach the fallback Middleware function which sends back the response for invalid paths)
+app.use(invalidPathHandler)
 
 // Start the server
 app.listen(port, () => {

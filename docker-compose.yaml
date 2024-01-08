@@ -1,11 +1,27 @@
 version: "3.8"
 services:
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - '3000:3000'
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    stdin_open: true
+    tty: true
+    environment:
+      REACT_APP_BACKEND_URL: http://localhost
+      REACT_APP_BACKEND_PORT: 8000
+    depends_on:
+      - backend
   backend:
     build:
       context: ./backend
       dockerfile: Dockerfile
     ports:
-      - '3000:3000'
+      - '8000:8000'
     volumes:
       - ./backend:/app
       - /app/node_modules
@@ -14,6 +30,7 @@ services:
       DB_USER: w3_user
       DB_PASSWORD: W4LWVHCqG8r6f4mm
       DB_NAME: w3_db
+      PORT: 8000
     stdin_open: true
     tty: true
     depends_on:

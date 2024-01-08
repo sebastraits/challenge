@@ -14,19 +14,13 @@ interface ICountry extends RowDataPacket {
   Percentage_of_total: number;
 }
 
-const getCountriesService = async (
+export const getCountriesService = async (
   nameContains: string
 ): Promise<ICountry[]> => {
-  const RES_LIMIT = 5
-  const query = `SELECT name, population_size, ROUND(((population_size / (SELECT SUM(population_size) FROM countries)) * 100), 2) AS Percentage_of_total FROM countries WHERE name LIKE ? ORDER BY population_size DESC LIMIT ?;`;
-  try {
-    const [rows] = await connection
-      .promise()
-      .query<ICountry[]>(query, [`%${nameContains}%`, RES_LIMIT]);
-    return rows;
-  } catch (error) {
-    throw new Error(error);
-  }
+  const RES_LIMIT = 5;
+  const query = `SELECT name, population_size, ROUND(((population_size / (SELECT SUM(population_size) FROM countries)) * 100), 2) AS percentage_of_total FROM countries WHERE name LIKE ? ORDER BY population_size DESC LIMIT ?;`;
+  const [rows] = await connection
+    .promise()
+    .query<ICountry[]>(query, [`%${nameContains}%`, RES_LIMIT]);
+  return rows;
 };
-
-export default getCountriesService;
