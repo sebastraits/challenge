@@ -7,6 +7,7 @@ function App() {
   const [searchTerm, setSearchTerm] = useState("");
   const [results, setResults] = useState(null);
   const [error, setError] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   const inputRef = useRef();
 
@@ -23,6 +24,7 @@ function App() {
 
   const handleSearch = async () => {
     setError(undefined);
+    setIsLoading(true);
     const response = await getCountries(searchTerm);
     if (response.error) {
       setResults(null);
@@ -31,6 +33,23 @@ function App() {
     } else {
       setResults(response.data);
     }
+    setIsLoading(false);
+  };
+
+  const Grid = () => {
+    return (
+      <>
+        <GridHeader />
+        {results.map((country, index) => (
+          <GridElement
+            key={index}
+            name={country.name}
+            population_size={country.population_size}
+            percentage_of_total={country.percentage_of_total}
+          />
+        ))}
+      </>
+    );
   };
 
   const GridHeader = () => {
@@ -65,9 +84,12 @@ function App() {
     );
   };
 
+  const GridNoResults = () => {
+    return <p className={styles.noResults}>No results found.</p>;
+  };
+
   return (
     <div className="App">
-      <header></header>
       <div className={styles.body}>
         <img src={logo} className={styles.logo} alt="logo" />
         <p>Countries app challenge.</p>
@@ -87,20 +109,9 @@ function App() {
             Search
           </button>
         </div>
-        <div>
-          {results && results.length > 0 && <GridHeader />}
-          {results &&
-            results.map((country, index) => (
-              <GridElement
-                key={index}
-                name={country.name}
-                population_size={country.population_size}
-                percentage_of_total={country.percentage_of_total}
-              />
-            ))}
-          {results && results.length === 0 && (
-            <p className={styles.noResults}>No results found.</p>
-          )}
+        <div className={styles.gridContainer}>
+          {isLoading && <span className={styles.isLoading}/>}
+          {results && (results.length > 0 ? <Grid /> : <GridNoResults />)}
         </div>
       </div>
     </div>
