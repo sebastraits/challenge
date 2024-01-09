@@ -53,18 +53,21 @@ function App() {
   };
 
   const GridHeader = () => {
+    const label1 = "Country";
+    const label2 = "Population";
+    const label3 = "% of total";
     return (
       <div className={styles.grid}>
-        <p className={`${styles.gridItem} ${styles.gridHeader}`}>Country</p>
+        <p className={`${styles.gridItem} ${styles.gridHeader}`}>{label1}</p>
         <p
           className={`${styles.gridItem} ${styles.gridHeader} ${styles.gridItemRight}`}
         >
-          Population
+          {label2}
         </p>
         <p
           className={`${styles.gridItem} ${styles.gridHeader} ${styles.gridItemRight}`}
         >
-          Percentage
+          {label3}
         </p>
       </div>
     );
