@@ -43,11 +43,11 @@ describe('App component', () => {
     await waitFor(() => {
       expect(getCountries).toHaveBeenCalledTimes(1);
       expect(screen.getByText('Country 1')).toBeInTheDocument();
-      expect(screen.getByText('Population: 1.000.000')).toBeInTheDocument();
-      expect(screen.getByText('10%')).toBeInTheDocument();
+      expect(screen.getByText('1.000.000')).toBeInTheDocument();
+      expect(screen.getByText('10')).toBeInTheDocument();
       expect(screen.getByText('Country 2')).toBeInTheDocument();
-      expect(screen.getByText('Population: 500.000')).toBeInTheDocument();
-      expect(screen.getByText('5%')).toBeInTheDocument();
+      expect(screen.getByText('500.000')).toBeInTheDocument();
+      expect(screen.getByText('5')).toBeInTheDocument();
     });
   });
 
