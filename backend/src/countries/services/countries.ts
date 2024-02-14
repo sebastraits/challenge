@@ -7,6 +7,12 @@ export interface ICountry extends RowDataPacket {
   Percentage_of_total: number;
 }
 
+export const getAllCountriesService = async (): Promise<ICountry[]> => {
+  const query: string = `SELECT name, population_size, ROUND(((population_size / (SELECT SUM(population_size) FROM countries)) * 100), 2) AS percentage_of_total FROM countries ORDER BY population_size DESC;`;
+  const [rows] = await connection.promise().query<ICountry[]>(query);
+  return rows;
+}
+
 export const getCountriesService = async (
   nameContains: string
 ): Promise<ICountry[]> => {

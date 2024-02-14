@@ -1,8 +1,12 @@
 import { query, validationResult } from "express-validator";
-import { getCountries } from "./controllers/countries.ts";
+import { getCountries, getAllCountries } from "./controllers/countries.ts";
 import { Router, Request, Response } from "express";
 
 const router: Router = Router();
+
+router.get("/all", (req: Request, res: Response) => {
+  return getAllCountries(req, res);
+});
 
 router.get(
   "/",

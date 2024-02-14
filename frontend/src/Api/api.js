@@ -36,3 +36,13 @@ export const getCountries = async (searchTerm) => {
     return { error: "An error occurred on the server" };
   }
 };
+
+export const getAllCountries = async () => { 
+try {
+  const response = await requests.get(`/countries/all`);
+  return response;
+} catch (err) {
+  console.log("error:", err);
+  return { error: "An error occurred on the server" };
+}  
+}
