@@ -1,7 +1,7 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import logo from "./logo.svg";
 import styles from "./App.module.css";
-import { getCountries } from "./Api/api";
+import { getCountries, getAllCountries } from "./Api/api";
 
 function App() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -21,6 +21,19 @@ function App() {
       handleSearch();
     }
   };
+
+  const fetchAllCountries = async () => {
+    const response = await getAllCountries();
+    if (response.error) {
+      setError(response.error);
+    } else {
+      setResults(response.data);
+    }
+  };
+
+  useEffect(() => {
+    fetchAllCountries();
+  }, []);
 
   const handleSearch = async () => {
     setError(undefined);
@@ -51,6 +64,7 @@ function App() {
       </>
     );
   };
+  
 
   const GridHeader = () => {
     const label1 = "Country";
@@ -113,7 +127,7 @@ function App() {
           </button>
         </div>
         <div className={styles.gridContainer}>
-          {isLoading && <span className={styles.isLoading}/>}
+          {isLoading && <span className={styles.isLoading} />}
           {results && (results.length > 0 ? <Grid /> : <GridNoResults />)}
         </div>
       </div>
